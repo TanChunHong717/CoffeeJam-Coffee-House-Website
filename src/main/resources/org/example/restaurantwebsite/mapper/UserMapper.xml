@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.restaurantwebsite.mapper.UserMapper">
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="User">
+        SELECT * FROM menu
+    </select>
+
+    <!--User getUserById(@Param("userId") Integer userId);-->
+    <select id="getUserById" resultType="Menu">
+        SELECT * FROM user WHERE user_id = #{userId}
+    </select>
+
+    <!--User getUserByName(@Param("username") String username);-->
+    <select id="getUserByName" resultType="Menu">
+        SELECT * FROM menu WHERE user_name = #{username}
+    </select>
+
+    <!--void registerUser(User user);-->
+    <insert id="registerUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user VALUES (DEFAULT, #{username}, #{email}, #{password})
+    </insert>
+
+    <!--void updateUser(User user);-->
+    <update id="updateUser">
+        UPDATE user
+        <set>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+</mapper>

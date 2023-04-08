@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CoffeeJam Coffee House</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div id="nav" class="container">
+        <header>
+            <h1>CoffeeJam Coffee House</h1>
+        </header>
+        <nav>
+            <ul class="nav nav-tabs">
+                <li class="active"><a th:href="@{/admin}">Home</a></li>
+                <li><a th:href="@{/admin/menu/page/1}">Menu</a></li>
+                <li><a th:href="@{/admin/table/page/1}">Table</a></li>
+                <li><a th:href="@{/admin/user/page/1}">User</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <h2>Welcome to administrator homepage</h2>
+
+        <div class="text-left" style="margin-bottom: 10px">
+            <a class="btn btn-success btn-large" th:href="@{/admin/menu/page/1}">Menu</a>
+            <a class="btn btn-warning btn-large" th:href="@{/admin/table/page/1}">Table</a>
+            <a class="btn btn-info btn-large" th:href="@{/admin/table/page/1}">User</a>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Table</th>
+                <th>Table Space</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order: ${page.list}">
+                <td th:text="${order.orderId}"></td>
+                <td th:text="${order.orderUser.username}"></td>
+                <td th:text="${order.orderTable.tableName}"></td>
+                <td th:text="${order.orderTable.tableSpace}"></td>
+                <td class="operation">
+                    <a class="btn btn-success" th:href="@{'/admin/order/' + ${order.orderId}}">Details</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <ul class="pagination">
+                <li><a th:if="${page.hasPreviousPage}" th:href="@{/admin/menu/page/1}">&lt;&lt;</a></li>
+                <li><a th:if="${page.hasPreviousPage}" th:href="@{'/admin/order/page/' + ${page.prePage}}">&lt;</a></li>
+                <li th:each="num :${page.navigatepageNums}">
+                    <a th:if="${page.pageNum == num}" style="color: red" th:href="@{'/admin/order/page/' + ${num}}" th:text="'[' + ${num} + ']'"></a>
+                    <a th:if="${page.pageNum != num}" th:href="@{'/admin/order/page/' + ${num}}" th:text="${num}"></a>
+                </li>
+                <li><a th:if="${page.hasNextPage}" th:href="@{'/admin/order/page/' + ${page.nextPage}}">&gt;</a></li>
+                <li><a th:if="${page.hasNextPage}" th:href="@{'/admin/order/page/' + ${page.pages}}">&gt;&gt;</a></li>
+            </ul>
+        </div>
+
+        <hr>
+        <footer class="text-center">
+            Copyright &copy; 2023 CoffeeJam Coffee House<br>
+            <a href="mailto:tanchunhong717@gmail.com">tanchunhong717@gmail.com</a>
+        </footer>
+    </div>
+</body>
+</html>

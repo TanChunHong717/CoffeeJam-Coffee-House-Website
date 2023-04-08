@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.restaurantwebsite.mapper.OrderMapper">
+        <!--List<Order> getAllOrder();-->
+        <select id="getAllOrder" resultMap="orderResultMap">
+                SELECT * FROM `order`
+        </select>
+
+        <!--Order getOrderByTable(Integer tableId);-->
+        <select id="getOrderByTable" resultMap="orderResultMap">
+                SELECT * FROM `order` WHERE table_id = #{tableId}
+        </select>
+
+        <!--Order getOrderByUser(Integer userId);-->
+        <select id="getOrderByUser" resultMap="orderResultMap">
+                SELECT * FROM `order` WHERE user_id = #{userId}
+        </select>
+
+        <!--void insertOrder(Order order);-->
+        <insert id="insertOrder" useGeneratedKeys="true" keyProperty="tableId">
+                INSERT INTO `order` VALUES (DEFAULT, #{orderUser.userId}, #{orderTable.tableId}, #{note})
+        </insert>
+
+        <resultMap id="orderResultMap" type="Order">
+                <id column="order_id" property="orderId"/>
+                <result column="order_note" property="note"/>
+                <association property="orderTable" select="org.example.restaurantwebsite.mapper.TableMapper.getTable" column="table_id"/>
+                <association property="orderUser" select="org.example.restaurantwebsite.mapper.UserMapper.getUserById" column="user_id"/>
+                <collection property="menuList" select="org.example.restaurantwebsite.mapper.MenuMapper.getMenuBeOrder" column="order_id"/>
+        </resultMap>
+
+        <!--void insertOrderMenu(@Param("orderId") Integer orderId, @Param("menuIds") List<Integer> menuIds);-->
+        <insert id="insertOrderMenu">
+                INSERT INTO contain VALUES
+                <foreach collection="menuIds" item="id" open="(" close=")" separator="),(">
+                        #{orderId}, #{id}
+                </foreach>
+        </insert>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.restaurantwebsite.mapper.MenuMapper">
+        <!--List<Menu> getAllMenu();-->
+        <select id="getAllMenu" resultType="Menu">
+                SELECT * FROM menu
+        </select>
+
+        <!--Menu getMenu(Integer menuId);-->
+        <select id="getMenu" resultType="Menu">
+                SELECT * FROM menu WHERE menu_id = #{menuId}
+        </select>
+
+        <!--int insertMenu(Menu menu)-->
+        <insert id="insertMenu" useGeneratedKeys="true" keyProperty="menuId">
+                INSERT INTO menu VALUES (DEFAULT, #{menuName}, #{menuPrice}, #{menuImageUrl})
+        </insert>
+
+        <!--void deleteMenu(@Param("menuId") Integer menuId);-->
+        <delete id="deleteMenu">
+                DELETE FROM menu WHERE menu_id = #{menuId}
+        </delete>
+
+        <!--void updateMenu(Menu menu);-->
+        <update id="updateMenu">
+                UPDATE menu
+                <set>
+                    <if test="menuName != null">menu_name = #{menuName},</if>
+                    <if test="menuPrice != null">menu_price = #{menuPrice},</if>
+                </set>
+                WHERE menu_id = #{menuId}
+        </update>
+
+        <!--List<Menu> getMenuBeOrder(Integer orderId);-->
+        <select id="getMenuBeOrder" resultType="Menu">
+                SELECT menu_id,menu_name,menu_price FROM contain JOIN menu USING (menu_id) WHERE order_id = #{orderId}
+        </select>
+</mapper>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Table</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div id="nav" class="container">
+        <header>
+            <h1>CoffeeJam Coffee House</h1>
+        </header>
+        <nav>
+            <ul class="nav nav-tabs">
+                <li><a th:href="@{/admin}">Home</a></li>
+                <li><a th:href="@{/admin/menu/page/1}">Menu</a></li>
+                <li class="active"><a href="#">Table</a></li>
+                <li><a th:href="@{/admin/user/page/1}">User</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <main>
+            <h2>Available Menu</h2>
+
+            <div class="text-right">
+                <a style="margin-bottom: 5px" class="btn btn-success" th:href="@{../../add/table}">Add Table</a>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Table Name</th>
+                    <th>Table Space</th>
+                    <th colspan="2">Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="table: ${page.list}">
+                    <td th:text="${table.tableId}"></td>
+                    <td th:text="${table.tableName}"></td>
+                    <td th:text="${table.tableSpace}"></td>
+                    <td class="operation">
+                        <a class="btn btn-warning" th:href="@{'/admin/table/' + ${table.tableId}}">Edit</a>
+                        <a class="btn btn-danger" th:href="@{'/admin/table/' + ${page.pageNum} + '/' + ${table.tableId}}" @click="deleteTable">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="text-right">
+                <ul class="pagination">
+                    <li><a th:if="${page.hasPreviousPage}" th:href="@{/admin/table/page/1}">&lt;&lt;</a></li>
+                    <li><a th:if="${page.hasPreviousPage}" th:href="@{'/admin/table/page/' + ${page.prePage}}">&lt;</a></li>
+                    <li th:each="num :${page.navigatepageNums}">
+                        <a th:if="${page.pageNum == num}" style="color: red" th:href="@{'/admin/table/page/' + ${num}}" th:text="'[' + ${num} + ']'"></a>
+                        <a th:if="${page.pageNum != num}" th:href="@{'/admin/table/page/' + ${num}}" th:text="${num}"></a>
+                    </li>
+                    <li><a th:if="${page.hasNextPage}" th:href="@{'/admin/table/page/' + ${page.nextPage}}">&gt;</a></li>
+                    <li><a th:if="${page.hasNextPage}" th:href="@{'/admin/table/page/' + ${page.pages}}">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </main>
+
+        <hr>
+        <footer class="text-center">
+            Copyright &copy; 2023 CoffeeJam Coffee House<br>
+            <a href="mailto:tanchunhong717@gmail.com">tanchunhong717@gmail.com</a>
+        </footer>
+    </div>
+
+    <form method="post">
+        <input type="hidden" name="_method" value="delete">
+    </form>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            methods: {
+                deleteTable() {
+                    let form = document.getElementsByTagName("form")[0];
+                    form.action = event.target.href;
+                    form.submit();
+                    event.preventDefault();
+                }
+            }
+        }).mount('#wrapper')
+    </script>
+</body>
+</html>

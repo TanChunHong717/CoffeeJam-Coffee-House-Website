@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Success</title>
+</head>
+<body>
+<div id="nav" class="container">
+  <header>
+    <h1>CoffeeJam Coffee House</h1>
+  </header>
+  <nav>
+    <ul class="nav nav-tabs">
+      <li><a th:href="@{/}">Home</a></li>
+      <li><a th:if="${session.user != null}" th:href="@{/order/page/1}">Order</a></li>
+      <li><a th:if="${session.user != null}" th:href="@{/profile}">Profile</a></li>
+    </ul>
+  </nav>
+</div>
+
+<div class="container">
+  <main>
+    <h2>Order Success</h2>
+
+    <p>You order is made successfully. Please attend to our restaurant at the specific time</p>
+  </main>
+
+  <hr>
+  <footer class="text-center">
+    Copyright &copy; 2023 CoffeeJam Coffee House<br>
+    <a href="mailto:tanchunhong717@gmail.com">tanchunhong717@gmail.com</a>
+  </footer>
+</div>
+</body>
+</html>

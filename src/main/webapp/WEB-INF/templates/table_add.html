@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Table</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <div id="nav" class="container">
+    <header>
+      <h1>CoffeeJam Coffee House</h1>
+    </header>
+    <nav>
+      <ul class="nav nav-tabs">
+        <li><a th:href="@{/admin}">Home</a></li>
+        <li><a th:href="@{/admin/menu/page/1}">Menu</a></li>
+        <li><a th:href="@{/admin/table/page/1}">Table</a></li>
+        <li><a th:href="@{/admin/user/page/1}">User</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+    <main>
+      <h2>Add Table</h2>
+
+      <form class="form-horizontal" method="post" th:action="@{/admin/table}">
+        <label for="tableName">*Table Name</label><br>
+        <input class="form-control" id="tableName" type="text" name="tableName"><br>
+        <label for="tableSpace">*Space</label><br>
+        <input class="form-control" id="tableSpace" type="number" step="1" name="tableSpace"><br>
+        <input class="btn btn-success" type="submit" value="Submit">
+      </form>
+    </main>
+
+    <hr>
+    <footer class="text-center">
+      Copyright &copy; 2023 CoffeeJam Coffee House<br>
+      <a href="mailto:tanchunhong717@gmail.com">tanchunhong717@gmail.com</a>
+    </footer>
+  </div>
+</body>
+</html>
